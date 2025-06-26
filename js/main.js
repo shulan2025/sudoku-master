@@ -51,15 +51,30 @@ class SudokuUI {
 
     // 创建数独游戏板
     createBoard() {
+        console.log('Creating sudoku board...');
         const boardContainer = document.getElementById('sudokuBoard');
-        if (!boardContainer) return;
+        if (!boardContainer) {
+            console.error('Board container not found!');
+            return;
+        }
 
         boardContainer.innerHTML = '';
         
         // 创建board容器
         const board = document.createElement('div');
         board.className = 'board';
+        board.style.display = 'grid';
+        board.style.gridTemplateColumns = 'repeat(9, 1fr)';
+        board.style.gap = '2px';
+        board.style.background = '#8B4513';
+        board.style.padding = '12px';
+        board.style.borderRadius = '12px';
+        board.style.maxWidth = '480px';
+        board.style.margin = '0 auto';
+        board.style.boxShadow = 'inset 0 4px 8px rgba(0, 0, 0, 0.3)';
         boardContainer.appendChild(board);
+        
+        console.log('Board container created, adding cells...');
         
         for (let row = 0; row < 9; row++) {
             for (let col = 0; col < 9; col++) {
@@ -67,6 +82,18 @@ class SudokuUI {
                 cell.className = 'cell';
                 cell.dataset.row = row;
                 cell.dataset.col = col;
+                cell.style.aspectRatio = '1';
+                cell.style.background = '#FFF8DC';
+                cell.style.border = '2px solid #D2691E';
+                cell.style.display = 'flex';
+                cell.style.alignItems = 'center';
+                cell.style.justifyContent = 'center';
+                cell.style.fontSize = '24px';
+                cell.style.fontWeight = 'bold';
+                cell.style.cursor = 'pointer';
+                cell.style.transition = 'all 0.3s ease';
+                cell.style.position = 'relative';
+                cell.style.borderRadius = '4px';
                 
                 // 添加3x3方格边框
                 if (row % 3 === 0) cell.classList.add('border-top');
@@ -80,6 +107,8 @@ class SudokuUI {
                 board.appendChild(cell);
             }
         }
+        
+        console.log('Board created successfully with 81 cells');
     }
 
     // 创建数字面板
