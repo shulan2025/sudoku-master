@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数独大师 - Sudoku Master</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Game Container -->
+    <div class="game-container">
+        <!-- Navigation -->
+        <nav class="nav-bar">
+            <div class="nav-left">
+                <h1 class="game-title">🧩 数独大师</h1>
+                <select id="languageSelector" class="language-selector">
+                    <option value="zh">中文</option>
+                    <option value="en">English</option>
+                    <option value="ja">日本語</option>
+                    <option value="de">Deutsch</option>
+                    <option value="hi">हिंदी</option>
+                    <option value="ru">Русский</option>
+                    <option value="fr">Français</option>
+                </select>
+            </div>
+            <div class="nav-right">
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-page="game">🎮 游戏</button>
+                    <button class="nav-tab" data-page="challenge" id="dailyChallengeNav">📅 每日挑战</button>
+                    <button class="nav-tab" data-page="trophy" id="trophyNav">🏆 成就与奖杯</button>
+                    <button class="nav-tab" data-page="shop" id="shopNav">🛒 商店与兑换</button>
+                    <button class="nav-tab" data-page="settings" id="settingsNav">⚙️ 设置</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Game Page -->
+        <div class="page active" id="gamePage">
+            <!-- Game Header -->
+            <div class="game-header">
+                <div class="header-left">
+                    <div class="difficulty-selector" id="difficultySelector">
+                        <div class="current-difficulty">
+                            <span id="currentDifficulty">中等</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="difficulty-dropdown" id="difficultyDropdown">
+                            <div class="difficulty-option" data-difficulty="easy">
+                                <div class="difficulty-name">简单</div>
+                                <div class="difficulty-desc">初学者友好</div>
+                            </div>
+                            <div class="difficulty-option" data-difficulty="medium">
+                                <div class="difficulty-name">中等</div>
+                                <div class="difficulty-desc">适度挑战</div>
+                            </div>
+                            <div class="difficulty-option" data-difficulty="hard">
+                                <div class="difficulty-name">困难</div>
+                                <div class="difficulty-desc">高级玩家</div>
+                            </div>
+                            <div class="difficulty-option" data-difficulty="expert">
+                                <div class="difficulty-name">专家</div>
+                                <div class="difficulty-desc">数独大师</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="header-center">
+                    <div class="game-timer">⏱️ <span id="timer">00:00</span></div>
+                    <div class="game-stats">
+                        <span class="stars">⭐ <span id="totalStars">0</span></span>
+                        <span class="streak">🔥 <span id="currentStreak">0</span></span>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <button class="control-btn" id="newGameBtn">🎮 新游戏</button>
+                    <button class="continue-btn" id="continueGameBtn" style="display: none;">
+                        <div class="continue-text">继续游戏</div>
+                        <div class="continue-details" id="continueDetails">中等难度 - 45% 完成</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Game Content -->
+            <div class="game-content">
+                <div class="game-left">
+                    <!-- Sudoku Board -->
+                    <div class="sudoku-container">
+                        <div class="sudoku-board" id="sudokuBoard"></div>
+                    </div>
+                    
+                    <!-- Game Controls -->
+                    <div class="game-controls">
+                        <div class="control-row">
+                            <button class="control-btn secondary" id="hintBtn">💡 提示 (5)</button>
+                            <button class="control-btn secondary" id="pencilBtn">✏️ 铅笔模式</button>
+                            <button class="control-btn secondary" id="eraseBtn">🗑️ 橡皮擦</button>
+                        </div>
+                        <div class="control-row">
+                            <button class="control-btn secondary" id="undoBtn">↶ 撤销</button>
+                            <button class="control-btn secondary" id="redoBtn">↷ 重做</button>
+                            <button class="control-btn secondary" id="pauseBtn">⏸️ 暂停</button>
+                        </div>
+                    </div>
+
+                    <!-- Number Pad -->
+                    <div class="number-pad" id="numberPad">
+                        <!-- Numbers 1-9 will be generated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="game-right">
+                    <!-- Game Info Card -->
+                    <div class="info-card">
+                        <div class="info-header" id="infoToggle">
+                            <h2>立即玩免费的数独游戏</h2>
+                            <span class="toggle-icon rotated">▼</span>
+                        </div>
+                        <div class="info-content expanded" id="infoContent">
+                            <!-- Benefits Section -->
+                            <div class="info-section info-benefits">
+                                <h4>🧠 数独游戏的好处</h4>
+                                <div class="benefit-item">
+                                    <strong>提升逻辑思维：</strong>通过推理和排除法训练大脑的逻辑思维能力
+                                </div>
+                                <div class="benefit-item">
+                                    <strong>增强记忆力：</strong>在解题过程中需要记住数字位置和可能性
+                                </div>
+                                <div class="benefit-item">
+                                    <strong>提高专注力：</strong>专注解题有助于训练集中注意力的能力
+                                </div>
+                                <div class="benefit-item">
+                                    <strong>减缓认知衰退：</strong>定期进行数独练习有助于保持大脑活跃
+                                </div>
+                                <div class="benefit-item">
+                                    <strong>缓解压力：</strong>沉浸在数字游戏中可以有效放松身心
+                                </div>
+                            </div>
+
+                            <!-- Rules Section -->
+                            <div class="info-section info-rules">
+                                <h4>🎯 数独游戏规则</h4>
+                                <div class="rule-item">
+                                    <div class="rule-text"><strong>行规则：</strong>每行必须包含1-9的数字，且不能重复</div>
+                                </div>
+                                <div class="rule-item">
+                                    <div class="rule-text"><strong>列规则：</strong>每列必须包含1-9的数字，且不能重复</div>
+                                </div>
+                                <div class="rule-item">
+                                    <div class="rule-text"><strong>九宫格规则：</strong>每个3×3的九宫格必须包含1-9的数字，且不能重复</div>
+                                </div>
+                            </div>
+
+                            <!-- Tips Section -->
+                            <div class="info-section info-tips">
+                                <h4>💡 数独游戏技巧</h4>
+                                
+                                <div class="tip-category">
+                                    <h5>基本技巧</h5>
+                                    <div class="tip-item">
+                                        <div class="tip-title">唯一数字法</div>
+                                        <div class="tip-desc">在某行、列或九宫格中只有一个位置能填入某个数字</div>
+                                    </div>
+                                    <div class="tip-item">
+                                        <div class="tip-title">排除法</div>
+                                        <div class="tip-desc">通过已知数字排除其他位置的可能性</div>
+                                    </div>
+                                    <div class="tip-item">
+                                        <div class="tip-title">候选数字</div>
+                                        <div class="tip-desc">使用铅笔模式标记每个格子的可能数字</div>
+                                    </div>
+                                </div>
+
+                                <div class="tip-category">
+                                    <h5>高级技巧</h5>
+                                    <div class="tip-item">
+                                        <div class="tip-title">隐藏单一候选</div>
+                                        <div class="tip-desc">某个数字在某区域只能在一个位置出现</div>
+                                    </div>
+                                    <div class="tip-item">
+                                        <div class="tip-title">裸子集</div>
+                                        <div class="tip-desc">两个或多个格子只能填入相同的几个数字</div>
+                                    </div>
+                                    <div class="tip-item">
+                                        <div class="tip-title">指向对组</div>
+                                        <div class="tip-desc">利用九宫格内的数字指向来排除其他区域</div>
+                                    </div>
+                                </div>
+
+                                <div class="tip-category">
+                                    <h5>解题策略</h5>
+                                    <div class="tip-item">
+                                        <div class="tip-title">从简单开始</div>
+                                        <div class="tip-desc">先填写确定的数字，再处理复杂区域</div>
+                                    </div>
+                                    <div class="tip-item">
+                                        <div class="tip-title">分区处理</div>
+                                        <div class="tip-desc">重点关注数字较多的行、列或九宫格</div>
+                                    </div>
+                                    <div class="tip-item">
+                                        <div class="tip-title">保持耐心</div>
+                                        <div class="tip-desc">遇到困难时可以暂停思考，换个角度分析</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Features Section -->
+                            <div class="info-section info-features">
+                                <h4>✨ 游戏特色</h4>
+                                <div class="feature-item">
+                                    <div class="feature-title">智能提示</div>
+                                    <div class="feature-desc">当您遇到困难时，可以使用提示功能获得帮助</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">铅笔模式</div>
+                                    <div class="feature-desc">标记候选数字，帮助您记录思考过程</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">撤销重做</div>
+                                    <div class="feature-desc">随时撤销错误操作，无需担心犯错</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">每日挑战</div>
+                                    <div class="feature-desc">每天一个新谜题，保持练习习惯</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">成就系统</div>
+                                    <div class="feature-desc">完成挑战获得星星奖励和成就徽章</div>
+                                </div>
+                                <div class="feature-item">
+                                    <div class="feature-title">多语言支持</div>
+                                    <div class="feature-desc">支持7种语言，全球玩家都能享受</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daily Challenge Quick Access -->
+                    <div class="daily-challenge-card">
+                        <div class="challenge-header">
+                            <h3>📅 今日挑战</h3>
+                            <p>您已连续打卡 <span id="streakCount">0</span> 天</p>
+                        </div>
+                        <div class="challenge-rewards">
+                            <h4>今日奖励</h4>
+                            <div class="reward-list">
+                                <div class="reward-item">基础奖励: +2⭐</div>
+                                <div class="reward-item">连续奖励: +1⭐</div>
+                                <div class="reward-item">速度奖励: +1⭐</div>
+                                <div class="reward-item">奖杯几率: 15%</div>
+                            </div>
+                        </div>
+                        <button class="challenge-btn" id="dailyChallengeBtn">开始今日挑战</button>
+                    </div>
+
+                    <!-- Latest Achievements -->
+                    <div class="achievements-card">
+                        <h3>🏆 最新成就</h3>
+                        <div class="achievement-list" id="achievementList">
+                            <!-- Achievements will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Challenge Page -->
+        <div class="page" id="challengePage">
+            <div class="page-header">
+                <h1 class="challenge-title">📅 每日挑战</h1>
+                <div class="challenge-date" id="challengeDate"></div>
+            </div>
+            
+            <div class="challenge-content">
+                <div class="challenge-header">
+                    <p>完成今日数独获得额外奖励！</p>
+                    <div class="challenge-status" id="challengeStatus">
+                        <span class="status-text">未完成</span>
+                    </div>
+                </div>
+
+                <div class="challenge-rewards">
+                    <h3>今日奖励</h3>
+                    <div class="reward-grid">
+                        <div class="reward-card">
+                            <div class="reward-icon">⭐</div>
+                            <div class="reward-name">基础奖励</div>
+                            <div class="reward-value">+2 星星</div>
+                        </div>
+                        <div class="reward-card">
+                            <div class="reward-icon">🔥</div>
+                            <div class="reward-name">连续奖励</div>
+                            <div class="reward-value">+1 星星</div>
+                        </div>
+                        <div class="reward-card">
+                            <div class="reward-icon">⚡</div>
+                            <div class="reward-name">速度奖励</div>
+                            <div class="reward-value">+1 星星</div>
+                        </div>
+                        <div class="reward-card">
+                            <div class="reward-icon">🏆</div>
+                            <div class="reward-name">奖杯几率</div>
+                            <div class="reward-value">15%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="challenge-stats">
+                    <div class="stat-item">
+                        <div class="stat-label">本月完成：</div>
+                        <div class="stat-value" id="monthlyCompleted">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">最佳时间：</div>
+                        <div class="stat-value" id="bestTime">--:--</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">平均时间：</div>
+                        <div class="stat-value" id="avgTime">--:--</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">连续完成：</div>
+                        <div class="stat-value" id="consecutiveDays">0 天</div>
+                    </div>
+                </div>
+
+                <button class="start-challenge-btn" id="challengeStartBtn">开始挑战</button>
+            </div>
+        </div>
+
+        <!-- Trophy & Achievements Page -->
+        <div class="page" id="trophyPage">
+            <div class="page-header">
+                <h1 class="trophy-title">🏆 数独大师</h1>
+                <div class="player-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-info">
+                            <div class="stat-label game-time-label">总游戏时长：</div>
+                            <div class="stat-value" id="totalGameTime">0小时0分钟</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🧩</div>
+                        <div class="stat-info">
+                            <div class="stat-label puzzles-label">完成谜题：</div>
+                            <div class="stat-value" id="completedPuzzles">0个</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🔥</div>
+                        <div class="stat-info">
+                            <div class="stat-label">连续打卡：</div>
+                            <div class="stat-value" id="consecutiveCheckin">0天</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="achievements-grid">
+                <div class="achievement-card earned">
+                    <div class="achievement-icon">🌟</div>
+                    <div class="achievement-info">
+                        <h3>新手解谜者</h3>
+                        <p>完成10个简单难度谜题</p>
+                        <div class="achievement-progress">10/10</div>
+                    </div>
+                </div>
+                
+                <div class="achievement-card earned">
+                    <div class="achievement-icon">📅</div>
+                    <div class="achievement-info">
+                        <h3>每日坚持者</h3>
+                        <p>连续打卡7天</p>
+                        <div class="achievement-progress">7/7</div>
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-icon">🎯</div>
+                    <div class="achievement-info">
+                        <h3>难度挑战者</h3>
+                        <p>完成所有难度模式至少一次</p>
+                        <div class="achievement-progress">3/4</div>
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-icon">🏆</div>
+                    <div class="achievement-info">
+                        <h3>数独大师</h3>
+                        <p>完成50个专家难度谜题</p>
+                        <div class="achievement-progress">12/50</div>
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-icon">⚡</div>
+                    <div class="achievement-info">
+                        <h3>速度之王</h3>
+                        <p>在3分钟内完成中等难度</p>
+                        <div class="achievement-progress">0/1</div>
+                    </div>
+                </div>
+                
+                <div class="achievement-card">
+                    <div class="achievement-icon">🔥</div>
+                    <div class="achievement-info">
+                        <h3>连击高手</h3>
+                        <p>连续打卡30天</p>
+                        <div class="achievement-progress">7/30</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shop & Exchange Page -->
+        <div class="page" id="shopPage">
+            <div class="page-header">
+                <h1>🛒 商店与兑换</h1>
+                <div class="balance-display">
+                    <span class="balance-label">当前余额：</span>
+                    <span class="balance-amount">⭐ <span id="starBalance">42</span></span>
+                </div>
+            </div>
+
+            <div class="shop-description">
+                <p class="shop-description">使用小星星兑换精美主题和实用道具</p>
+            </div>
+
+            <div class="shop-grid">
+                <div class="shop-item">
+                    <div class="item-icon">💡</div>
+                    <div class="item-info">
+                        <h3>提示次数包</h3>
+                        <p>获得额外5次提示机会，帮助您解决困难的谜题</p>
+                        <div class="item-price">⭐ 8</div>
+                    </div>
+                    <button class="exchange-btn">立即兑换</button>
+                </div>
+
+                <div class="shop-item">
+                    <div class="item-icon">🎨</div>
+                    <div class="item-info">
+                        <h3>美拉德主题包A</h3>
+                        <p>温暖的焦糖配色主题，带来舒适的视觉体验</p>
+                        <div class="item-price">⭐ 15</div>
+                    </div>
+                    <button class="exchange-btn">立即兑换</button>
+                </div>
+
+                <div class="shop-item">
+                    <div class="item-icon">🌙</div>
+                    <div class="item-info">
+                        <h3>美拉德主题包B</h3>
+                        <p>优雅的奶咖配色主题，营造宁静的游戏氛围</p>
+                        <div class="item-price">⭐ 15</div>
+                    </div>
+                    <button class="exchange-btn">立即兑换</button>
+                </div>
+
+                <div class="shop-item">
+                    <div class="item-icon">🔢</div>
+                    <div class="item-info">
+                        <h3>数字样式X</h3>
+                        <p>精美的数字字体样式，让游戏界面更加个性化</p>
+                        <div class="item-price">⭐ 12</div>
+                    </div>
+                    <button class="exchange-btn">立即兑换</button>
+                </div>
+
+                <div class="shop-item">
+                    <div class="item-icon">❄️</div>
+                    <div class="item-info">
+                        <h3>时间冻结卡</h3>
+                        <p>在游戏中暂停计时器30秒，给您更多思考时间</p>
+                        <div class="item-price">⭐ 10</div>
+                    </div>
+                    <button class="exchange-btn">立即兑换</button>
+                </div>
+
+                <div class="shop-item">
+                    <div class="item-icon">🔍</div>
+                    <div class="item-info">
+                        <h3>错误检查器</h3>
+                        <p>自动检查并标出所有错误，让解题更加轻松</p>
+                        <div class="item-price">⭐ 20</div>
+                    </div>
+                    <button class="exchange-btn">立即兑换</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div class="page" id="settingsPage">
+            <div class="page-header">
+                <h1>⚙️ 设置</h1>
+            </div>
+
+            <div class="settings-content">
+                <div class="settings-section">
+                    <h3>🎮 游戏设置</h3>
+                    <div class="setting-item">
+                        <label>音效</label>
+                        <input type="checkbox" id="soundToggle" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label>错误高亮</label>
+                        <input type="checkbox" id="errorHighlight" checked>
+                    </div>
+                    <div class="setting-item">
+                        <label>自动保存</label>
+                        <input type="checkbox" id="autoSave" checked>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>🎨 主题选择</h3>
+                    <div class="theme-options">
+                        <div class="theme-option active" data-theme="default">
+                            <div class="theme-preview default"></div>
+                            <span>默认主题</span>
+                        </div>
+                        <div class="theme-option" data-theme="maillard-a">
+                            <div class="theme-preview maillard-a"></div>
+                            <span>美拉德A</span>
+                        </div>
+                        <div class="theme-option" data-theme="maillard-b">
+                            <div class="theme-preview maillard-b"></div>
+                            <span>美拉德B</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>🌐 语言设置</h3>
+                    <select id="settingsLanguageSelector" class="language-selector">
+                        <option value="zh">中文</option>
+                        <option value="en">English</option>
+                        <option value="ja">日本語</option>
+                        <option value="de">Deutsch</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="ru">Русский</option>
+                        <option value="fr">Français</option>
+                    </select>
+                </div>
+
+                <div class="settings-section">
+                    <h3>⌨️ 快捷键</h3>
+                    <div class="shortcut-list">
+                        <div class="shortcut-item">
+                            <span>数字键 1-9</span>
+                            <span>填入数字</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span>Delete/Backspace</span>
+                            <span>清除格子</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span>P</span>
+                            <span>切换铅笔模式</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span>H</span>
+                            <span>使用提示</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span>Ctrl+Z</span>
+                            <span>撤销</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span>Ctrl+Y</span>
+                            <span>重做</span>
+                        </div>
+                        <div class="shortcut-item">
+                            <span>Space</span>
+                            <span>暂停游戏</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>ℹ️ 关于</h3>
+                    <div class="about-content">
+                        <p>数独大师 v1.0.0</p>
+                        <p>一款功能完整的数独游戏，支持多种难度、每日挑战、成就系统等特色功能。</p>
+                        <p>© 2024 数独大师. 保留所有权利。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Game Modal -->
+    <div class="modal" id="newGameModal">
+        <div class="modal-content">
+            <h2>选择难度</h2>
+            <p>选择您的挑战等级</p>
+            <div class="difficulty-options">
+                <div class="difficulty-card" data-difficulty="easy">
+                    <h3>简单</h3>
+                    <p>初学者友好</p>
+                </div>
+                <div class="difficulty-card" data-difficulty="medium">
+                    <h3>中等</h3>
+                    <p>适度挑战</p>
+                </div>
+                <div class="difficulty-card" data-difficulty="hard">
+                    <h3>困难</h3>
+                    <p>高级玩家</p>
+                </div>
+                <div class="difficulty-card" data-difficulty="expert">
+                    <h3>专家</h3>
+                    <p>数独大师</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content success">
+            <div class="success-icon">🎉</div>
+            <h2 id="successTitle">恭喜！</h2>
+            <p id="successMessage">您成功完成了这个数独谜题！</p>
+            <div class="success-stats">
+                <div class="stat">
+                    <span class="label">用时：</span>
+                    <span class="value" id="finalTime">05:32</span>
+                </div>
+                <div class="stat">
+                    <span class="label">获得：</span>
+                    <span class="value" id="earnedStars">+3 ⭐</span>
+                </div>
+            </div>
+            <div class="success-actions">
+                <button class="success-btn" id="playAgainBtn">再玩一局</button>
+                <button class="success-btn secondary" id="backToMenuBtn">返回主页</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/game.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html> 
