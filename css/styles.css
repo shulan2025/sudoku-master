@@ -187,6 +187,17 @@
             align-items: center;
         }
 
+        .sudoku-board-container {
+            background: rgba(245, 222, 179, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .sudoku-board {
             background: rgba(245, 222, 179, 0.95);
             padding: 25px;
@@ -1284,14 +1295,6 @@
             max-width: 1000px;
             margin-left: auto;
             margin-right: auto;
-        }
-
-        .sudoku-board-container {
-            background: rgba(245, 222, 179, 0.95);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
         }
 
         .game-controls {
