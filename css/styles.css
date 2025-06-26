@@ -156,6 +156,37 @@
             margin-bottom: 30px;
         }
 
+        /* Game Content Layout */
+        .game-content {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .game-left {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .game-right {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sudoku-container {
+            background: rgba(245, 222, 179, 0.95);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
         .sudoku-board {
             background: rgba(245, 222, 179, 0.95);
             padding: 25px;
@@ -236,6 +267,71 @@
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
+        }
+
+        /* Game Controls Layout */
+        .game-controls {
+            background: rgba(245, 222, 179, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .control-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .control-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-btn {
+            background: linear-gradient(135deg, #8B4513, #A0522D);
+            color: white;
+            border: none;
+            padding: 12px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            white-space: nowrap;
+        }
+
+        .control-btn:hover {
+            background: linear-gradient(135deg, #A0522D, #CD853F);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .control-btn.active {
+            background: linear-gradient(135deg, #FF8C00, #DAA520);
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.4);
+        }
+
+        .control-btn.secondary {
+            background: linear-gradient(135deg, #D2691E, #B8860B);
+        }
+
+        .control-btn.secondary:hover {
+            background: linear-gradient(135deg, #FF8C00, #DAA520);
+        }
+
+        /* Number Pad Styling */
+        .number-pad {
+            background: rgba(245, 222, 179, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
         }
 
         /* Control Panel */
@@ -1504,34 +1600,6 @@
             transform: rotate(180deg);
         }
 
-        .difficulty-dropdown {
-            position: absolute;
-            background-color: #F5DEB3;
-            border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            margin-top: 5px;
-        }
-
-        .difficulty-option {
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .difficulty-option:hover {
-            background-color: #FF8C00;
-        }
-
-        .header-center {
-            display: flex;
-            gap: 30px;
-            align-items: center;
-            color: #F5DEB3;
-            font-size: 16px;
-            font-weight: 500;
-        }
-
         .difficulty-selector {
             position: relative;
             display: inline-block;
@@ -1627,4 +1695,152 @@
 
         .dropdown-arrow.rotated {
             transform: rotate(180deg);
+        }
+
+        /* Right Side Cards */
+        .info-card {
+            background: rgba(245, 222, 179, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+
+        .daily-challenge-card {
+            background: rgba(245, 222, 179, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+
+        .challenge-header {
+            margin-bottom: 15px;
+        }
+
+        .challenge-header h3 {
+            color: #8B4513;
+            margin-bottom: 8px;
+        }
+
+        .challenge-rewards h4 {
+            color: #8B4513;
+            margin-bottom: 10px;
+        }
+
+        .reward-list {
+            margin-bottom: 15px;
+        }
+
+        .reward-item {
+            color: #A0522D;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .challenge-btn {
+            background: linear-gradient(135deg, #FF8C00, #D2691E);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .challenge-btn:hover {
+            background: linear-gradient(135deg, #DAA520, #B8860B);
+            transform: translateY(-2px);
+        }
+
+        .achievements-card {
+            background: rgba(245, 222, 179, 0.95);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .achievements-card h3 {
+            color: #8B4513;
+            margin-bottom: 15px;
+        }
+
+        .info-header {
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-header:hover {
+            background: rgba(210, 105, 30, 0.1);
+        }
+
+        .info-header h2 {
+            color: #8B4513;
+            margin: 0;
+        }
+
+        .benefit-item {
+            margin-bottom: 12px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 5px;
+            line-height: 1.4;
+        }
+
+        .rule-item {
+            margin-bottom: 10px;
+        }
+
+        .rule-text {
+            color: #8B4513;
+            line-height: 1.4;
+        }
+
+        .tip-item {
+            margin-bottom: 12px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+
+        .tip-title {
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 4px;
+        }
+
+        .tip-desc {
+            color: #A0522D;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .feature-item {
+            margin-bottom: 12px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+
+        .feature-title {
+            font-weight: bold;
+            color: #8B4513;
+            margin-bottom: 4px;
+        }
+
+        .feature-desc {
+            color: #A0522D;
+            font-size: 14px;
+            line-height: 1.4;
         }
