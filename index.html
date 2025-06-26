@@ -10,81 +10,61 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Game Container -->
-    <div class="game-container">
-        <!-- Navigation -->
-        <nav class="nav-bar">
-            <div class="nav-left">
-                <h1 class="game-title">🧩 数独大师</h1>
-                <select id="languageSelector" class="language-selector">
-                    <option value="zh">中文</option>
-                    <option value="en">English</option>
-                    <option value="ja">日本語</option>
-                    <option value="de">Deutsch</option>
-                    <option value="hi">हिंदी</option>
-                    <option value="ru">Русский</option>
-                    <option value="fr">Français</option>
-                </select>
-            </div>
-            <div class="nav-right">
-                <div class="nav-tabs">
-                    <button class="nav-tab active" data-page="game">🎮 游戏</button>
-                    <button class="nav-tab" data-page="challenge" id="dailyChallengeNav">📅 每日挑战</button>
-                    <button class="nav-tab" data-page="trophy" id="trophyNav">🏆 成就与奖杯</button>
-                    <button class="nav-tab" data-page="shop" id="shopNav">🛒 商店与兑换</button>
-                    <button class="nav-tab" data-page="settings" id="settingsNav">⚙️ 设置</button>
+    <div class="container">
+        <!-- Header Navigation -->
+        <div class="header">
+            <div class="logo">🧩 数独大师</div>
+            <div class="header-center">
+                <div id="timer">⏱️ <span>00:00</span></div>
+                <div>⭐ <span id="totalStars">0</span> 🔥 <span id="currentStreak">0</span></div>
+                <div class="difficulty-selector">
+                    <button class="difficulty-btn-header" id="difficultySelector">
+                        <span id="currentDifficulty">中等</span>
+                        <span class="dropdown-arrow">▼</span>
+                    </button>
+                    <div class="difficulty-dropdown" id="difficultyDropdown">
+                        <div class="difficulty-option" data-difficulty="easy">
+                            <span class="difficulty-name">简单</span>
+                            <span class="difficulty-desc">初学者友好</span>
+                        </div>
+                        <div class="difficulty-option" data-difficulty="medium">
+                            <span class="difficulty-name">中等</span>
+                            <span class="difficulty-desc">适度挑战</span>
+                        </div>
+                        <div class="difficulty-option" data-difficulty="hard">
+                            <span class="difficulty-name">困难</span>
+                            <span class="difficulty-desc">高级玩家</span>
+                        </div>
+                        <div class="difficulty-option" data-difficulty="expert">
+                            <span class="difficulty-name">专家</span>
+                            <span class="difficulty-desc">数独大师</span>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
+            <div class="header-right">
+                <button class="nav-btn active" data-page="game">🎮 游戏</button>
+                <button class="nav-btn" data-page="challenge" id="dailyChallengeNav">📅 每日挑战</button>
+                <button class="nav-btn" data-page="trophy" id="trophyNav">🏆 成就与奖杯</button>
+                <button class="nav-btn" data-page="shop" id="shopNav">🛒 商店与兑换</button>
+                <button class="nav-btn" data-page="settings" id="settingsNav">⚙️ 设置</button>
+                <div class="language-wrapper">
+                    <span class="language-icon">🌍</span>
+                    <select class="language-selector" id="languageSelector">
+                        <option value="zh">中文</option>
+                        <option value="en">English</option>
+                        <option value="ja">日本語</option>
+                        <option value="de">Deutsch</option>
+                        <option value="hi">हिंदी</option>
+                        <option value="ru">Русский</option>
+                        <option value="fr">Français</option>
+                    </select>
+                </div>
+            </div>
+        </div>
 
         <!-- Main Game Page -->
         <div class="page active" id="gamePage">
-            <!-- Game Header -->
-            <div class="game-header">
-                <div class="header-left">
-                    <div class="difficulty-selector" id="difficultySelector">
-                        <div class="current-difficulty">
-                            <span id="currentDifficulty">中等</span>
-                            <span class="dropdown-arrow">▼</span>
-                        </div>
-                        <div class="difficulty-dropdown" id="difficultyDropdown">
-                            <div class="difficulty-option" data-difficulty="easy">
-                                <div class="difficulty-name">简单</div>
-                                <div class="difficulty-desc">初学者友好</div>
-                            </div>
-                            <div class="difficulty-option" data-difficulty="medium">
-                                <div class="difficulty-name">中等</div>
-                                <div class="difficulty-desc">适度挑战</div>
-                            </div>
-                            <div class="difficulty-option" data-difficulty="hard">
-                                <div class="difficulty-name">困难</div>
-                                <div class="difficulty-desc">高级玩家</div>
-                            </div>
-                            <div class="difficulty-option" data-difficulty="expert">
-                                <div class="difficulty-name">专家</div>
-                                <div class="difficulty-desc">数独大师</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="header-center">
-                    <div class="game-timer">⏱️ <span id="timer">00:00</span></div>
-                    <div class="game-stats">
-                        <span class="stars">⭐ <span id="totalStars">0</span></span>
-                        <span class="streak">🔥 <span id="currentStreak">0</span></span>
-                    </div>
-                </div>
-
-                <div class="header-right">
-                    <button class="control-btn" id="newGameBtn">🎮 新游戏</button>
-                    <button class="continue-btn" id="continueGameBtn" style="display: none;">
-                        <div class="continue-text">继续游戏</div>
-                        <div class="continue-details" id="continueDetails">中等难度 - 45% 完成</div>
-                    </button>
-                </div>
-            </div>
-
             <!-- Game Content -->
             <div class="main-game-area">
                 <!-- Sudoku Board -->
@@ -140,138 +120,128 @@
                 </div>
             </div>
 
-            <!-- Game Right Side -->
-            <div class="game-right">
-                <!-- Game Info Card -->
-                <div class="info-card">
-                    <div class="info-header" id="infoToggle">
-                        <h2>立即玩免费的数独游戏</h2>
-                        <span class="toggle-icon rotated">▼</span>
-                    </div>
-                    <div class="info-content expanded" id="infoContent">
-                        <!-- Benefits Section -->
-                        <div class="info-section info-benefits">
-                            <h4>🧠 数独游戏的好处</h4>
-                            <div class="benefit-item">
-                                <strong>提升逻辑思维：</strong>通过推理和排除法训练大脑的逻辑思维能力
-                            </div>
-                            <div class="benefit-item">
-                                <strong>增强记忆力：</strong>在解题过程中需要记住数字位置和可能性
-                            </div>
-                            <div class="benefit-item">
-                                <strong>提高专注力：</strong>专注解题有助于训练集中注意力的能力
-                            </div>
-                            <div class="benefit-item">
-                                <strong>减缓认知衰退：</strong>定期进行数独练习有助于保持大脑活跃
-                            </div>
-                            <div class="benefit-item">
-                                <strong>缓解压力：</strong>沉浸在数字游戏中可以有效放松身心
-                            </div>
-                        </div>
-
-                        <!-- Rules Section -->
-                        <div class="info-section info-rules">
-                            <h4>🎯 数独游戏规则</h4>
-                            <div class="rule-item">
-                                <div class="rule-text"><strong>行规则：</strong>每行必须包含1-9的数字，且不能重复</div>
-                            </div>
-                            <div class="rule-item">
-                                <div class="rule-text"><strong>列规则：</strong>每列必须包含1-9的数字，且不能重复</div>
-                            </div>
-                            <div class="rule-item">
-                                <div class="rule-text"><strong>九宫格规则：</strong>每个3×3的九宫格必须包含1-9的数字，且不能重复</div>
-                            </div>
-                        </div>
-
-                        <!-- Tips Section -->
-                        <div class="info-section info-tips">
-                            <h4>💡 数独游戏技巧</h4>
-                            
-                            <div class="tip-category">
-                                <h5>基本技巧</h5>
-                                <div class="tip-item">
-                                    <div class="tip-title">唯一数字法</div>
-                                    <div class="tip-desc">在某行、列或九宫格中只有一个位置能填入某个数字</div>
-                                </div>
-                                <div class="tip-item">
-                                    <div class="tip-title">排除法</div>
-                                    <div class="tip-desc">通过已知数字排除其他位置的可能性</div>
-                                </div>
-                                <div class="tip-item">
-                                    <div class="tip-title">候选数字</div>
-                                    <div class="tip-desc">使用铅笔模式标记每个格子的可能数字</div>
-                                </div>
-                            </div>
-
-                            <div class="tip-category">
-                                <h5>高级技巧</h5>
-                                <div class="tip-item">
-                                    <div class="tip-title">隐藏单一候选</div>
-                                    <div class="tip-desc">某个数字在某区域只能在一个位置出现</div>
-                                </div>
-                                <div class="tip-item">
-                                    <div class="tip-title">裸子集</div>
-                                    <div class="tip-desc">两个或多个格子只能填入相同的几个数字</div>
-                                </div>
-                                <div class="tip-item">
-                                    <div class="tip-title">指向对组</div>
-                                    <div class="tip-desc">利用九宫格内的数字指向来排除其他区域</div>
-                                </div>
-                            </div>
-
-                            <div class="tip-category">
-                                <h5>解题策略</h5>
-                                <div class="tip-item">
-                                    <div class="tip-title">从简单开始</div>
-                                    <div class="tip-desc">先填写确定的数字，再处理复杂区域</div>
-                                </div>
-                                <div class="tip-item">
-                                    <div class="tip-title">分区处理</div>
-                                    <div class="tip-desc">重点关注数字较多的行、列或九宫格</div>
-                                </div>
-                                <div class="tip-item">
-                                    <div class="tip-title">保持耐心</div>
-                                    <div class="tip-desc">遇到困难时可以暂停思考，换个角度分析</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Features Section -->
-                        <div class="info-section info-features">
-                            <h4>✨ 游戏特色</h4>
-                            <div class="feature-item">
-                                <div class="feature-title">智能提示</div>
-                                <div class="feature-desc">当您遇到困难时，可以使用提示功能获得帮助</div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-title">铅笔模式</div>
-                                <div class="feature-desc">标记候选数字，帮助您记录思考过程</div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-title">撤销重做</div>
-                                <div class="feature-desc">随时撤销错误操作，无需担心犯错</div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-title">每日挑战</div>
-                                <div class="feature-desc">每天一个新谜题，保持练习习惯</div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-title">成就系统</div>
-                                <div class="feature-desc">完成挑战获得星星奖励和成就徽章</div>
-                            </div>
-                            <div class="feature-item">
-                                <div class="feature-title">多语言支持</div>
-                                <div class="feature-desc">支持7种语言，全球玩家都能享受</div>
-                            </div>
-                        </div>
-                    </div>
+            <!-- Expandable Information Section -->
+            <div class="info-section">
+                <div class="info-header" id="infoToggle">
+                    <h3>立即玩免费的数独游戏</h3>
+                    <span class="toggle-icon rotated">▼</span>
                 </div>
+                
+                <div class="info-content expanded" id="infoContent">
+                    <!-- Benefits Section -->
+                    <div class="info-section info-benefits">
+                        <h4>🧠 数独游戏的好处</h4>
+                        <div class="benefit-item">
+                            <strong>提升逻辑思维：</strong>通过推理和排除法训练大脑的逻辑思维能力
+                        </div>
+                        <div class="benefit-item">
+                            <strong>增强记忆力：</strong>在解题过程中需要记住数字位置和可能性
+                        </div>
+                        <div class="benefit-item">
+                            <strong>提高专注力：</strong>专注解题有助于训练集中注意力的能力
+                        </div>
+                        <div class="benefit-item">
+                            <strong>减缓认知衰退：</strong>定期进行数独练习有助于保持大脑活跃
+                        </div>
+                        <div class="benefit-item">
+                            <strong>缓解压力：</strong>沉浸在数字游戏中可以有效放松身心
+                        </div>
+                    </div>
 
-                <!-- Latest Achievements -->
-                <div class="achievements-card">
-                    <h3>🏆 最新成就</h3>
-                    <div class="achievement-list" id="achievementList">
-                        <!-- Achievements will be populated by JavaScript -->
+                    <!-- Rules Section -->
+                    <div class="info-section info-rules">
+                        <h4>🎯 数独游戏规则</h4>
+                        <div class="rule-item">
+                            <div class="rule-text"><strong>行规则：</strong>每行必须包含1-9的数字，且不能重复</div>
+                        </div>
+                        <div class="rule-item">
+                            <div class="rule-text"><strong>列规则：</strong>每列必须包含1-9的数字，且不能重复</div>
+                        </div>
+                        <div class="rule-item">
+                            <div class="rule-text"><strong>九宫格规则：</strong>每个3×3的九宫格必须包含1-9的数字，且不能重复</div>
+                        </div>
+                    </div>
+
+                    <!-- Tips Section -->
+                    <div class="info-section info-tips">
+                        <h4>💡 数独游戏技巧</h4>
+                        
+                        <div class="tip-category">
+                            <h5>基本技巧</h5>
+                            <div class="tip-item">
+                                <div class="tip-title">唯一数字法</div>
+                                <div class="tip-desc">在某行、列或九宫格中只有一个位置能填入某个数字</div>
+                            </div>
+                            <div class="tip-item">
+                                <div class="tip-title">排除法</div>
+                                <div class="tip-desc">通过已知数字排除其他位置的可能性</div>
+                            </div>
+                            <div class="tip-item">
+                                <div class="tip-title">候选数字</div>
+                                <div class="tip-desc">使用铅笔模式标记每个格子的可能数字</div>
+                            </div>
+                        </div>
+
+                        <div class="tip-category">
+                            <h5>高级技巧</h5>
+                            <div class="tip-item">
+                                <div class="tip-title">隐藏单一候选</div>
+                                <div class="tip-desc">某个数字在某区域只能在一个位置出现</div>
+                            </div>
+                            <div class="tip-item">
+                                <div class="tip-title">裸子集</div>
+                                <div class="tip-desc">两个或多个格子只能填入相同的几个数字</div>
+                            </div>
+                            <div class="tip-item">
+                                <div class="tip-title">指向对组</div>
+                                <div class="tip-desc">利用九宫格内的数字指向来排除其他区域</div>
+                            </div>
+                        </div>
+
+                        <div class="tip-category">
+                            <h5>解题策略</h5>
+                            <div class="tip-item">
+                                <div class="tip-title">从简单开始</div>
+                                <div class="tip-desc">先填写确定的数字，再处理复杂区域</div>
+                            </div>
+                            <div class="tip-item">
+                                <div class="tip-title">分区处理</div>
+                                <div class="tip-desc">重点关注数字较多的行、列或九宫格</div>
+                            </div>
+                            <div class="tip-item">
+                                <div class="tip-title">保持耐心</div>
+                                <div class="tip-desc">遇到困难时可以暂停思考，换个角度分析</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Features Section -->
+                    <div class="info-section info-features">
+                        <h4>✨ 游戏特色</h4>
+                        <div class="feature-item">
+                            <div class="feature-title">智能提示</div>
+                            <div class="feature-desc">当您遇到困难时，可以使用提示功能获得帮助</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-title">铅笔模式</div>
+                            <div class="feature-desc">标记候选数字，帮助您记录思考过程</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-title">撤销重做</div>
+                            <div class="feature-desc">随时撤销错误操作，无需担心犯错</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-title">每日挑战</div>
+                            <div class="feature-desc">每天一个新谜题，保持练习习惯</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-title">成就系统</div>
+                            <div class="feature-desc">完成挑战获得星星奖励和成就徽章</div>
+                        </div>
+                        <div class="feature-item">
+                            <div class="feature-title">多语言支持</div>
+                            <div class="feature-desc">支持7种语言，全球玩家都能享受</div>
+                        </div>
                     </div>
                 </div>
             </div>

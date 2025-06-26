@@ -215,22 +215,55 @@ class SudokuUI {
 
     // 设置页面导航
     setupNavigation() {
-        const navTabs = document.querySelectorAll('.nav-tab');
+        const navBtns = document.querySelectorAll('.nav-btn');
         const pages = document.querySelectorAll('.page');
 
-        navTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const targetPage = tab.dataset.page;
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetPage = btn.dataset.page;
                 this.switchPage(targetPage);
             });
         });
+
+        // 难度选择器事件
+        const difficultySelector = document.getElementById('difficultySelector');
+        const difficultyDropdown = document.getElementById('difficultyDropdown');
+        
+        if (difficultySelector && difficultyDropdown) {
+            difficultySelector.addEventListener('click', () => {
+                difficultyDropdown.classList.toggle('show');
+                const arrow = difficultySelector.querySelector('.dropdown-arrow');
+                if (arrow) arrow.classList.toggle('rotated');
+            });
+
+            // 点击选项
+            difficultyDropdown.querySelectorAll('.difficulty-option').forEach(option => {
+                option.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const difficulty = option.dataset.difficulty;
+                    this.startNewGame(difficulty);
+                    difficultyDropdown.classList.remove('show');
+                    const arrow = difficultySelector.querySelector('.dropdown-arrow');
+                    if (arrow) arrow.classList.remove('rotated');
+                });
+            });
+
+            // 点击外部关闭下拉菜单
+            document.addEventListener('click', (e) => {
+                if (!difficultySelector.contains(e.target)) {
+                    difficultyDropdown.classList.remove('show');
+                    const arrow = difficultySelector.querySelector('.dropdown-arrow');
+                    if (arrow) arrow.classList.remove('rotated');
+                }
+            });
+        }
     }
 
     // 切换页面
     switchPage(pageName) {
         // 更新导航标签
-        document.querySelectorAll('.nav-tab').forEach(tab => {
-            tab.classList.remove('active');
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.remove('active');
         });
         document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
 
