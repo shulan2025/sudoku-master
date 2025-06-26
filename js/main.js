@@ -56,6 +56,11 @@ class SudokuUI {
 
         boardContainer.innerHTML = '';
         
+        // 创建board容器
+        const board = document.createElement('div');
+        board.className = 'board';
+        boardContainer.appendChild(board);
+        
         for (let row = 0; row < 9; row++) {
             for (let col = 0; col < 9; col++) {
                 const cell = document.createElement('div');
@@ -72,7 +77,7 @@ class SudokuUI {
                 // 添加点击事件
                 cell.addEventListener('click', () => this.selectCell(row, col));
                 
-                boardContainer.appendChild(cell);
+                board.appendChild(cell);
             }
         }
     }
