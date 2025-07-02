@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://sudoku-masterr.com/sitemap.xml
+
+# Block unwanted crawling
+Disallow: /test-*
+Disallow: /*.js$
+
+# Crawl-delay for politeness
+Crawl-delay: 1
