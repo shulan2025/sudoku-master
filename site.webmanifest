@@ -1,0 +1,10 @@
+{
+    "name": "Sudoku Master - 数独大师",
+    "short_name": "Sudoku Master",
+    "description": "免费在线数独游戏，支持多语言和多难度",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#8B4513",
+    "theme_color": "#D2691E",
+    "orientation": "portrait"
+}
