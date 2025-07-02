@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>语言切换测试 - Sudoku Master</title>
+    <meta name="description" content="测试页面">
+    <meta name="keywords" content="测试,关键词">
+    <meta property="og:title" content="测试标题">
+    <meta property="og:description" content="测试描述">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="twitter:title" content="测试标题">
+    <meta property="twitter:description" content="测试描述">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .language-selector {
+            background: #D2691E;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .meta-info {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .test-button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .warning { background: #fff3cd; color: #856404; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 语言切换与SEO Meta标签测试</h1>
+        
+        <div>
+            <label for="languageSelector">选择语言:</label>
+            <select class="language-selector" id="languageSelector">
+                <option value="zh">中文</option>
+                <option value="en">English</option>
+                <option value="ja">日本語</option>
+                <option value="de">Deutsch</option>
+                <option value="hi">हिन्दी</option>
+                <option value="ru">Русский</option>
+                <option value="fr">Français</option>
+            </select>
+        </div>
+        
+        <button class="test-button" onclick="runTest()">🔍 检查当前Meta标签</button>
+        <button class="test-button" onclick="clearCache()">🗑️ 清除缓存并刷新</button>
+        
+        <div id="status" class="status"></div>
+        
+        <h2>当前页面Meta信息:</h2>
+        <div id="metaInfo" class="meta-info"></div>
+        
+        <h2>测试日志:</h2>
+        <div id="testLog" class="meta-info"></div>
+    </div>
+
+    <script src="seo-keywords.js"></script>
+    <script>
+        let currentLanguage = 'zh';
+        let testLog = [];
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            testLog.unshift(`[${timestamp}] ${message}`);
+            document.getElementById('testLog').textContent = testLog.slice(0, 10).join('\n');
+        }
+        
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+        
+        function updateMetaTags(lang) {
+            log(`正在更新语言: ${lang}`);
+            
+            const seoData = window.seoTranslations[lang];
+            if (!seoData) {
+                showStatus(`语言 ${lang} 的SEO数据不存在`, 'error');
+                return false;
+            }
+            
+            try {
+                // 更新HTML lang属性
+                document.documentElement.lang = seoData.htmlLang;
+                log(`更新HTML lang: ${seoData.htmlLang}`);
+                
+                // 更新页面标题
+                document.title = seoData.pageTitle;
+                log(`更新标题: ${seoData.pageTitle}`);
+                
+                // 更新meta描述
+                const metaDescription = document.querySelector('meta[name="description"]');
+                if (metaDescription) {
+                    metaDescription.setAttribute('content', seoData.metaDescription);
+                    log(`更新描述: ${seoData.metaDescription.substring(0, 50)}...`);
+                }
+                
+                // 更新meta关键词
+                const metaKeywords = document.querySelector('meta[name="keywords"]');
+                if (metaKeywords) {
+                    metaKeywords.setAttribute('content', seoData.metaKeywords);
+                    log(`更新关键词: ${seoData.metaKeywords.substring(0, 50)}...`);
+                }
+                
+                // 更新Open Graph标签
+                const ogTitle = document.querySelector('meta[property="og:title"]');
+                if (ogTitle) {
+                    ogTitle.setAttribute('content', seoData.pageTitle);
+                }
+                
+                const ogDescription = document.querySelector('meta[property="og:description"]');
+                if (ogDescription) {
+                    ogDescription.setAttribute('content', seoData.ogDescription);
+                }
+                
+                const ogLocale = document.querySelector('meta[property="og:locale"]');
+                if (ogLocale) {
+                    ogLocale.setAttribute('content', seoData.ogLocale);
+                }
+                
+                // 更新Twitter Card标签
+                const twitterTitle = document.querySelector('meta[property="twitter:title"]');
+                if (twitterTitle) {
+                    twitterTitle.setAttribute('content', seoData.pageTitle);
+                }
+                
+                const twitterDescription = document.querySelector('meta[property="twitter:description"]');
+                if (twitterDescription) {
+                    twitterDescription.setAttribute('content', seoData.twitterDescription);
+                }
+                
+                showStatus(`✅ 成功更新为 ${lang} 语言的Meta标签`, 'success');
+                log(`Meta标签更新完成`);
+                return true;
+                
+            } catch (error) {
+                showStatus(`❌ 更新Meta标签时出错: ${error.message}`, 'error');
+                log(`错误: ${error.message}`);
+                return false;
+            }
+        }
+        
+        function runTest() {
+            const metaInfo = {
+                htmlLang: document.documentElement.lang,
+                title: document.title,
+                description: document.querySelector('meta[name="description"]')?.content || '未设置',
+                keywords: document.querySelector('meta[name="keywords"]')?.content || '未设置',
+                ogTitle: document.querySelector('meta[property="og:title"]')?.content || '未设置',
+                ogDescription: document.querySelector('meta[property="og:description"]')?.content || '未设置',
+                ogLocale: document.querySelector('meta[property="og:locale"]')?.content || '未设置'
+            };
+            
+            const display = `当前语言: ${currentLanguage}
+HTML Lang: ${metaInfo.htmlLang}
+页面标题: ${metaInfo.title}
+描述: ${metaInfo.description}
+关键词: ${metaInfo.keywords}
+OG标题: ${metaInfo.ogTitle}
+OG描述: ${metaInfo.ogDescription}
+OG语言: ${metaInfo.ogLocale}`;
+            
+            document.getElementById('metaInfo').textContent = display;
+            log('当前Meta信息已显示');
+        }
+        
+        function clearCache() {
+            if ('caches' in window) {
+                caches.keys().then(names => {
+                    names.forEach(name => {
+                        caches.delete(name);
+                    });
+                });
+            }
+            showStatus('缓存已清除，即将刷新页面...', 'warning');
+            setTimeout(() => window.location.reload(true), 1000);
+        }
+        
+        // 语言选择器事件
+        document.getElementById('languageSelector').addEventListener('change', (e) => {
+            currentLanguage = e.target.value;
+            log(`语言切换到: ${currentLanguage}`);
+            
+            const success = updateMetaTags(currentLanguage);
+            if (success) {
+                setTimeout(runTest, 100); // 延迟一点显示更新后的信息
+            }
+        });
+        
+        // 页面加载时运行测试
+        window.addEventListener('load', () => {
+            log('页面加载完成');
+            runTest();
+        });
+    </script>
+</body>
+</html> 
