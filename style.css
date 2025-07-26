@@ -1,0 +1,796 @@
+/* --- 通用变量和重置 --- */
+:root {
+    /* 浅色模式颜色 */
+    --light-bg-primary: #f2f4f7; /* 主背景 */
+    --light-bg-secondary: #ffffff; /* 卡片/游戏区背景 */
+    --light-bg-navbar: #e9f0f7; /* 导航栏背景 (略带蓝调) */
+    --light-text-primary: #343a40; /* 主要文字 */
+    --light-text-secondary: #5a646e; /* 次要文字 */
+    --light-border-soft: #dce0e6; /* 细边框 */
+    --light-border-strong: #aebacd; /* 粗边框 */
+    --light-highlight-selected: #e0f7fa; /* 选中单元格 */
+    --light-highlight-related: #f0f8ff; /* 关联单元格 */
+    --light-icon-action-bg: #e9ecef; /* 图标操作按钮背景 */
+
+    /* 深色模式颜色 */
+    --dark-bg-primary: #212529;
+    --dark-bg-secondary: #2c333f;
+    --dark-bg-navbar: #3a475a;
+    --dark-text-primary: #e0e0e0;
+    --dark-text-secondary: #bbbbbb;
+    --dark-border-soft: #4a5460;
+    --dark-border-strong: #788a9e;
+    --dark-highlight-selected: #004d6e;
+    --dark-highlight-related: #353b47;
+    --dark-icon-action-bg: #4a5460;
+
+    /* 强调色 */
+    --accent-primary: #3cb371; /* 强调绿 */
+    --accent-hover: #2e8b57; /* 强调绿悬停 */
+    --accent-active: #236b4e; /* 强调绿点击 */
+    --accent-blue: #007bff; /* 按钮蓝 */
+    --accent-blue-hover: #0056b3;
+    --accent-error: #e74c3c; /* 错误红 */
+    --accent-error-dark: #b82c1e;
+    --accent-clear: #6c757d; /* 清除/灰色按钮 */
+    --accent-clear-hover: #5a6268;
+
+    /* 字体 */
+    --font-family-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    font-family: var(--font-family-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding-top: 75px; /* 为导航栏留出空间 */
+    background-color: var(--light-bg-primary);
+    color: var(--light-text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 深色模式 */
+body.dark-mode {
+    background-color: var(--dark-bg-primary);
+    color: var(--dark-text-primary);
+}
+
+/* --- 导航栏 --- */
+.navbar {
+    width: 100%;
+    background-color: var(--light-bg-navbar); /* 导航栏背景色 */
+    color: var(--light-text-primary);
+    padding: 10px 25px;
+    display: flex;
+    justify-content: flex-start; /* 元素从左开始排列 */
+    align-items: center;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.dark-mode .navbar {
+    background-color: var(--dark-bg-navbar); /* 深色模式导航栏背景 */
+    color: var(--dark-text-primary);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+}
+
+.nav-brand {
+    /* Sudoku Master 标题，默认左对齐 */
+    margin-right: 20px; /* 与功能按钮组的间距 */
+    flex-shrink: 0; /* 防止标题缩小 */
+}
+
+.nav-brand h1 {
+    margin: 0;
+    color: var(--accent-primary);
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+/* 新的导航栏功能按钮容器，包含所有右侧功能 */
+.nav-functional-buttons {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* 各功能按钮之间的间距 */
+    margin-left: auto; /* 将整个按钮组推向右侧 */
+    padding-right: 20px; /* 右侧留白 */
+}
+
+
+#timer-display { /* 计时器和暂停按钮的容器 */
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--light-text-secondary);
+    flex-shrink: 0; /* 防止计时器缩小 */
+}
+body.dark-mode #timer-display {
+    color: var(--dark-text-secondary);
+}
+#timer {
+    display: inline-block;
+}
+
+.icon-button { /* 通用图标按钮，包含语言、主题、暂停 */
+    background: none;
+    border: none;
+    color: var(--light-text-secondary);
+    font-size: 26px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease; /* 添加transform过渡 */
+    flex-shrink: 0; /* 防止图标按钮缩小 */
+}
+
+.icon-button:hover {
+    background-color: var(--light-highlight-related);
+    color: var(--accent-blue);
+}
+
+.icon-button:active { /* 按钮点击呼吸感 */
+    transform: scale(0.95);
+    background-color: var(--light-highlight-selected);
+}
+
+
+body.dark-mode .icon-button {
+    color: var(--dark-text-secondary);
+}
+
+body.dark-mode .icon-button:hover {
+    background-color: var(--dark-highlight-related);
+    color: var(--accent-blue);
+}
+body.dark-mode .icon-button:active {
+    transform: scale(0.95);
+    background-color: var(--dark-highlight-selected);
+}
+
+/* --- 下拉菜单 --- */
+.dropdown-container {
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0; /* 防止下拉菜单容器缩小 */
+}
+
+.dropdown-toggle {
+    background-color: var(--accent-blue);
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease; /* 添加transform过渡 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dropdown-toggle:hover {
+    background-color: var(--accent-blue-hover);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+}
+
+.dropdown-toggle:active { /* 按钮点击呼吸感 */
+    transform: scale(0.98);
+    background-color: var(--accent-blue-hover);
+}
+
+
+body.dark-mode .dropdown-toggle {
+    background-color: var(--accent-blue-hover);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+body.dark-mode .dropdown-toggle:hover {
+    background-color: var(--accent-blue);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+body.dark-mode .dropdown-toggle:active {
+    transform: scale(0.98);
+    background-color: var(--accent-blue);
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: var(--light-bg-secondary);
+    min-width: 140px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+    top: 100%;
+    left: 0;
+    margin-top: 5px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+body.dark-mode .dropdown-menu {
+    background-color: var(--dark-bg-secondary);
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
+}
+
+.dropdown-menu.show {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.dropdown-menu button {
+    color: var(--light-text-primary);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+}
+
+.dropdown-menu button:hover {
+    background-color: var(--light-highlight-related);
+}
+
+body.dark-mode .dropdown-menu button {
+    color: var(--dark-text-primary);
+}
+body.dark-mode .dropdown-menu button:hover {
+    background-color: var(--dark-highlight-related);
+}
+
+.dropdown-menu button.active {
+    background-color: var(--light-highlight-selected);
+    font-weight: bold;
+    color: var(--accent-blue);
+}
+body.dark-mode .dropdown-menu button.active {
+    background-color: var(--dark-highlight-selected);
+    color: var(--accent-blue);
+}
+
+/* --- 主要游戏区域 --- */
+.game-area {
+    display: flex;
+    flex-direction: column; /* 默认垂直堆叠 */
+    align-items: center;
+    margin-top: 30px;
+    width: 100%;
+    max-width: 900px; /* 增大最大宽度以容纳并排布局 */
+    padding: 0 15px;
+}
+
+/* 数独网格和右侧面板的包装器，用于PC端并排布局 */
+.sudoku-and-right-panel-wrapper {
+    display: flex; /* 默认横向布局 */
+    flex-direction: row;
+    gap: 25px; /* 数独和右侧面板之间的间距 */
+    justify-content: center;
+    align-items: flex-start; /* 顶部对齐 */
+    width: 100%;
+    max-width: 800px; /* 控制整体宽度 */
+}
+
+
+#sudoku-container {
+    display: grid;
+    grid-template-columns: repeat(9, 50px);
+    grid-template-rows: repeat(9, 50px);
+    border: 4px solid var(--light-border-strong);
+    background-color: var(--light-bg-secondary);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0; /* 防止数独网格缩小 */
+}
+
+body.dark-mode #sudoku-container {
+    border-color: var(--dark-border-strong);
+    background-color: var(--dark-bg-secondary);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    border: 1px solid var(--light-border-soft);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: 600;
+    box-sizing: border-box;
+    transition: background-color 0.1s ease, border-color 0.1s ease;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    position: relative; /* 用于笔记模式 */
+}
+
+/* 笔记模式下的数字小字 */
+.cell.note-mode-display .pencil-notes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    font-size: 10px; /* 小字体 */
+    font-weight: normal; /* 笔记不粗体 */
+    color: var(--light-text-secondary); /* 笔记颜色 */
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-items: center;
+    line-height: 1; /* 紧凑排列 */
+    padding: 2px;
+}
+
+body.dark-mode .cell.note-mode-display .pencil-notes {
+    color: var(--dark-text-secondary);
+}
+
+
+/* 3x3宫格粗边框 */
+.cell:nth-child(3n) { border-right: 2px solid var(--light-border-strong); }
+.cell:nth-child(9n) { border-right: 4px solid var(--light-border-strong); }
+.cell:nth-child(n + 1):nth-child(-n + 9) { border-top: 4px solid var(--light-border-strong); }
+.cell:nth-child(n + 19):nth-child(-n + 27),
+.cell:nth-child(n + 46):nth-child(-n + 54) { border-bottom: 2px solid var(--light-border-strong); }
+.cell:nth-child(n + 73):nth-child(-n + 81) { border-bottom: 4px solid var(--light-border-strong); }
+.cell { border-left: 1px solid var(--light-border-soft); } /* 确保所有左侧有细边框 */
+.cell:nth-child(9n+1) { border-left: 4px solid var(--light-border-strong); }
+
+
+body.dark-mode .cell {
+    border: 1px solid var(--dark-border-soft);
+}
+body.dark-mode .cell:nth-child(3n) { border-right: 2px solid var(--dark-border-strong); }
+body.dark-mode .cell:nth-child(9n) { border-right: 4px solid var(--dark-border-strong); }
+body.dark-mode .cell:nth-child(n + 1):nth-child(-n + 9) { border-top: 4px solid var(--dark-border-strong); }
+body.dark-mode .cell:nth-child(n + 19):nth-child(-n + 27),
+body.dark-mode .cell:nth-child(n + 46):nth-child(-n + 54) { border-bottom: 2px solid var(--dark-border-strong); }
+body.dark-mode .cell:nth-child(n + 73):nth-child(-n + 81) { border-bottom: 4px solid var(--dark-border-strong); }
+body.dark-mode .cell:nth-child(9n+1) { border-left: 4px solid var(--dark-border-strong); }
+
+
+.cell.initial {
+    color: var(--light-text-primary);
+    background-color: var(--light-bg-primary);
+    cursor: default;
+}
+
+body.dark-mode .cell.initial {
+    color: var(--dark-text-primary);
+    background-color: var(--dark-bg-primary);
+}
+
+
+.cell.user-input {
+    color: var(--accent-blue);
+    cursor: pointer;
+}
+
+body.dark-mode .cell.user-input {
+    color: #87ceeb;
+}
+
+
+.cell.selected {
+    background-color: var(--light-highlight-selected);
+    border-color: var(--accent-blue);
+}
+body.dark-mode .cell.selected {
+    background-color: var(--dark-highlight-selected);
+    border-color: var(--accent-blue);
+}
+
+.cell.highlight {
+    background-color: var(--light-highlight-related);
+}
+body.dark-mode .cell.highlight {
+    background-color: var(--dark-highlight-related);
+}
+
+
+.cell.error {
+    background-color: var(--accent-error);
+    color: white;
+}
+body.dark-mode .cell.error {
+    background-color: var(--accent-error-dark);
+    color: white;
+}
+
+
+/* --- 右侧面板布局 --- */
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* 各部分之间的间距 */
+    width: 200px; /* 固定右侧面板宽度 */
+    align-items: center; /* 内部元素居中 */
+    flex-shrink: 0; /* 防止右侧面板缩小 */
+    padding: 10px; /* 内部填充 */
+}
+
+/* 顶部信息行：错误、计时器、暂停 */
+.top-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 8px 10px;
+    background-color: var(--light-bg-secondary);
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    font-weight: bold;
+    color: var(--light-text-secondary);
+}
+body.dark-mode .top-info-row {
+    background-color: var(--dark-bg-secondary);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    color: var(--dark-text-secondary);
+}
+
+#error-count {
+    font-size: 16px;
+    color: var(--accent-error);
+}
+body.dark-mode #error-count {
+    color: var(--accent-error-dark);
+}
+
+
+/* 顶部操作按钮行：撤销、笔记、橡皮擦、提示 */
+.top-action-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 四列均匀分布 */
+    gap: 8px; /* 按钮间距 */
+    width: 100%;
+}
+
+.icon-action-btn { /* 图标操作按钮 */
+    background-color: var(--light-icon-action-bg);
+    border: 1px solid var(--light-border-soft);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 20px;
+    color: var(--light-text-secondary);
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, transform 0.1s ease; /* 添加transform过渡 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    aspect-ratio: 1 / 1; /* 保持正方形 */
+}
+
+.icon-action-btn:hover {
+    background-color: var(--light-highlight-related);
+    color: var(--accent-blue);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+.icon-action-btn:active { /* 按钮点击呼吸感 */
+    transform: scale(0.95);
+    background-color: var(--light-highlight-selected);
+}
+.icon-action-btn.active { /* 笔记模式激活状态 */
+    background-color: var(--accent-primary);
+    color: white;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+}
+
+
+body.dark-mode .icon-action-btn {
+    background-color: var(--dark-icon-action-bg);
+    border-color: var(--dark-border-soft);
+    color: var(--dark-text-secondary);
+}
+body.dark-mode .icon-action-btn:hover {
+    background-color: var(--dark-highlight-related);
+    color: var(--accent-blue);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+body.dark-mode .icon-action-btn:active {
+    transform: scale(0.95);
+    background-color: var(--dark-highlight-selected);
+}
+body.dark-mode .icon-action-btn.active {
+    background-color: var(--accent-hover);
+    color: white;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+}
+
+
+/* --- 数字输入面板 (九宫格) --- */
+#number-input-panel {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3x3 九宫格 */
+    gap: 10px; /* 按钮间距 */
+    width: 100%; /* 撑满右侧面板宽度 */
+    background-color: var(--light-bg-secondary); /* 数字面板背景 */
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 15px; /* 内部填充 */
+}
+
+body.dark-mode #number-input-panel {
+    background-color: var(--dark-bg-secondary);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.num-btn {
+    padding: 15px; /* 调整内边距 */
+    font-size: 24px; /* 调整字体大小 */
+    border: none;
+    border-radius: 8px;
+    background-color: var(--light-icon-action-bg); /* 与顶部图标按钮背景一致 */
+    color: var(--light-text-primary);
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease; /* 添加transform过渡 */
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    aspect-ratio: 1 / 1; /* 保持按钮为正方形 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.num-btn:hover {
+    background-color: var(--light-highlight-related);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+.num-btn:active { /* 按钮点击呼吸感 */
+    transform: scale(0.95);
+    background-color: var(--light-highlight-selected);
+}
+
+
+body.dark-mode .num-btn {
+    background-color: var(--dark-icon-action-bg);
+    color: var(--dark-text-primary);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+body.dark-mode .num-btn:hover {
+    background-color: var(--dark-highlight-related);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+body.dark-mode .num-btn:active {
+    transform: scale(0.95);
+    background-color: var(--dark-highlight-selected);
+}
+
+/* 底部“新游戏”按钮 */
+.new-game-bottom-btn {
+    width: 100%; /* 撑满右侧面板宽度 */
+    padding: 15px;
+    font-size: 20px;
+    margin-top: 5px; /* 与数字面板的间距 */
+    /* 继承 .control-btn 和 .primary-btn 的样式 */
+}
+
+/* 消息提示区 (独立于右侧面板) */
+#message {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--accent-primary);
+    min-height: 28px;
+    text-align: center;
+    width: 100%; /* 确保居中 */
+    max-width: 600px; /* 与数独网格宽度对齐 */
+}
+body.dark-mode #message {
+    color: #90ee90;
+}
+
+
+/* --- 内容区域 --- */
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), var(--light-border-soft), rgba(0, 0, 0, 0));
+    width: 80%;
+    max-width: 700px;
+    margin: 40px 0;
+}
+body.dark-mode hr {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), var(--dark-border-soft), rgba(255, 255, 255, 0));
+}
+
+.content-section {
+    width: 90%;
+    max-width: 800px;
+    margin-bottom: 30px;
+    padding: 30px;
+    background-color: var(--light-bg-secondary);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    line-height: 1.8;
+}
+body.dark-mode .content-section {
+    background-color: var(--dark-bg-secondary);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.content-section h2 {
+    color: var(--accent-primary);
+    border-bottom: 2px solid var(--light-border-soft);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    font-size: 26px;
+    font-weight: 600;
+}
+body.dark-mode .content-section h2 {
+    border-bottom-color: var(--dark-border-soft);
+}
+
+.content-section p {
+    font-size: 17px;
+    margin-bottom: 12px;
+    color: var(--light-text-secondary);
+}
+body.dark-mode .content-section p {
+    color: var(--dark-text-secondary);
+}
+
+
+/* --- 响应式调整 --- */
+@media (max-width: 900px) { /* 当屏幕宽度小于 900px 时，数独和右侧面板垂直堆叠 */
+    .sudoku-and-right-panel-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        max-width: 650px; /* 恢复为数独网格的宽度 */
+    }
+
+    .right-panel {
+        width: 100%; /* 撑满可用宽度 */
+        max-width: 450px; /* 限制右侧面板的最大宽度 */
+        padding: 0 10px; /* 左右内边距 */
+    }
+
+    /* 移动端数字输入面板和操作按钮 */
+    #number-input-panel {
+        padding: 15px; /* 调整内边距 */
+        gap: 10px; /* 调整间距 */
+    }
+
+    .num-btn {
+        font-size: 22px; /* 缩小字体 */
+        padding: 12px; /* 缩小内边距 */
+    }
+    
+    .top-info-row, .top-action-row, .new-game-bottom-btn {
+        max-width: 450px; /* 限制与数字面板宽度一致 */
+    }
+}
+
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 130px;
+    }
+    .navbar {
+        flex-direction: column;
+        padding: 10px 15px;
+        gap: 10px;
+        align-items: flex-start;
+    }
+    .nav-brand {
+        margin-right: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    /* 移动端，所有功能按钮组垂直堆叠并居中 */
+    .nav-functional-buttons {
+        flex-direction: column; /* 垂直堆叠 */
+        align-items: center; /* 居中 */
+        margin-left: 0; /* 取消 auto margin */
+        padding-right: 0; /* 取消右侧留白 */
+        width: 100%;
+        gap: 10px; /* 增加垂直间距 */
+    }
+    
+    /* 调整移动端下拉菜单和计时器等宽度 */
+    .dropdown-container, #timer-display {
+        width: 100%;
+        justify-content: center; /* 内部元素居中 */
+    }
+    .dropdown-toggle {
+        width: 100%;
+        justify-content: center;
+        font-size: 15px;
+        padding: 8px 12px;
+    }
+    .dropdown-menu {
+        width: 90%; /* 宽度跟随父级 */
+        left: 50%;
+        transform: translateX(-50%); /* 居中 */
+    }
+    .dropdown-menu button {
+        font-size: 15px;
+    }
+    #timer-display {
+        font-size: 18px;
+        margin-left: 0; /* 取消左边距 */
+    }
+    #timer-display .icon-button {
+        font-size: 16px;
+    }
+
+
+    #sudoku-container {
+        grid-template-columns: repeat(9, 38px);
+        grid-template-rows: repeat(9, 38px);
+        border-width: 3px;
+    }
+    .cell {
+        width: 38px;
+        height: 38px;
+        font-size: 22px;
+        border-width: 1px;
+    }
+    /* 媒体查询中的粗边框 */
+    .cell:nth-child(3n) { border-right: 2px solid var(--light-border-strong); }
+    .cell:nth-child(9n) { border-right: 3px solid var(--light-border-strong); }
+    .cell:nth-child(n + 1):nth-child(-n + 9) { border-top: 3px solid var(--light-border-strong); }
+    .cell:nth-child(n + 19):nth-child(-n + 27),
+    .cell:nth-child(n + 46):nth-child(-n + 54) { border-bottom: 2px solid var(--light-border-strong); }
+    .cell:nth-child(n + 73):nth-child(-n + 81) { border-bottom: 3px solid var(--light-border-strong); }
+    .cell:nth-child(9n+1) { border-left: 3px solid var(--light-border-strong); }
+
+    body.dark-mode .cell:nth-child(3n) { border-right: 2px solid var(--dark-border-strong); }
+    body.dark-mode .cell:nth-child(9n) { border-right: 3px solid var(--dark-border-strong); }
+    body.dark-mode .cell:nth-child(n + 1):nth-child(-n + 9) { border-top: 3px solid var(--dark-border-strong); }
+    body.dark-mode .cell:nth-child(n + 19):nth-child(-n + 27),
+    body.dark-mode .cell:nth-child(n + 46):nth-child(-n + 54) { border-bottom: 2px solid var(--dark-border-strong); }
+    body.dark-mode .cell:nth-child(n + 73):nth-child(-n + 81) { border-bottom: 3px solid var(--dark-border-strong); }
+    body.dark-mode .cell:nth-child(9n+1) { border-left: 3px solid var(--dark-border-strong); }
+
+    .right-panel {
+        max-width: 360px;
+    }
+    .top-info-row, .top-action-row, .new-game-bottom-btn {
+        max-width: 360px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 150px;
+    }
+    .icon-button {
+        font-size: 20px;
+        padding: 6px;
+    }
+    #sudoku-container {
+        grid-template-columns: repeat(9, 32px);
+        grid-template-rows: repeat(9, 32px);
+    }
+    .cell {
+        width: 32px;
+        height: 32px;
+        font-size: 20px;
+    }
+    .right-panel {
+        max-width: 300px;
+    }
+    .top-info-row, .top-action-row, .new-game-bottom-btn {
+        max-width: 300px;
+    }
+}
